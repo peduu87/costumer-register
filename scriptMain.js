@@ -49,6 +49,14 @@ function validateForm() {
         }
     }
 
+    if (document.getElementById("inputPhone").value.length != 15) {
+        document.getElementById("inputPhone").classList.add("border-danger");
+        isFormValid = false;
+    }
+    else {
+        document.getElementById("inputPhone").classList.remove("border-danger");
+    }
+
     return isFormValid;
 }
 
