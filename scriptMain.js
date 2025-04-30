@@ -8,6 +8,14 @@ function cepMask() {
 
 $(document).ready(phoneMask(), cepMask());
 
+let CEP_INPUT = document.getElementById("inputCep");
+
+CEP_INPUT.addEventListener('keydown', (e) => {
+    if (e.code === "Enter") {
+        validateCep(CEP_INPUT);
+    }
+});
+
 // Object array that receives user information and stores it to be disposed.
 var regCostumers = [
     
@@ -83,4 +91,8 @@ function submitForm(){
     clearForm();
 
     return;
+}
+
+function validateCep(input) {
+    console.log(input.value);
 }
