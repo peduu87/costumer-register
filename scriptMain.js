@@ -93,6 +93,20 @@ function submitForm(){
     return;
 }
 
-function validateCep(input) {
-    console.log(input.value);
+async function validateCep(input) {
+    let cep = input.value.replace("-", "");
+
+    if (cep.length < 8) {
+        return;
+    }
+
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+
+    if (!response.ok) {
+        alert("O CEP informado não pôde ser encontrado.");
+    }
+
+    const adressJson = await response.json();
+
+    console.log(adressJson);
 }
