@@ -104,9 +104,42 @@ async function validateCep(input) {
 
     if (!response.ok) {
         alert("O CEP informado não pôde ser encontrado.");
+        return;
     }
 
     const adressJson = await response.json();
 
-    console.log(adressJson);
+    const inputAdress = document.getElementById("inputAdress");
+    const inputAdrNumber = document.getElementById("inputAdrNumber");
+    const inputNeighborhood = document.getElementById("inputNeighborhood");
+    const inputCity = document.getElementById("inputCity");
+    const inputState = document.getElementById("inputState");
+
+    if (adressJson.logradouro && adressJson.logradouro != "") {
+        inputAdress.value = adressJson.logradouro;
+    }
+    else {
+        inputAdress.disabled = false;
+    }
+    
+    inputAdrNumber.disabled = false;
+
+    if (adressJson.bairro && adressJson.bairro != "") {
+        inputNeighborhood.value = adressJson.bairro;
+    }
+    else {
+        inputNeighborhood.disabled = false;
+    }
+    if (adressJson.localidade && adressJson.localidade != "") {
+        inputCity.value = adressJson.localidade;
+    }
+    else {
+        inputCity.disabled = false;
+    }
+    if (adressJson.estado && adressJson.estado != "") {
+        inputState.value = adressJson.estado;
+    }
+    else {
+        inputState.disabled = false;
+    }
 }
