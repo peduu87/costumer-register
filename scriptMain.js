@@ -8,13 +8,21 @@ function cepMask() {
 
 $(document).ready(phoneMask(), cepMask());
 
-let CEP_INPUT = document.getElementById("inputCep");
+const inputName = document.getElementById("inputName");
+const inputPhone = document.getElementById("inputPhone");
+const inputCep = document.getElementById("inputCep");
+const inputAdress = document.getElementById("inputAdress");
+const inputAdrNumber = document.getElementById("inputAdrNumber");
+const inputNeighborhood = document.getElementById("inputNeighborhood");
+const inputCity = document.getElementById("inputCity");
+const inputState = document.getElementById("inputState");
 
-CEP_INPUT.addEventListener('keydown', (e) => {
+inputCep.addEventListener('keydown', (e) => {
     if (e.code === "Enter") {
-        validateCep(CEP_INPUT);
+        validateCep(inputCep);
     }
 });
+
 
 // Object array that receives user information and stores it to be disposed.
 var regCostumers = [
@@ -78,12 +86,18 @@ function clearForm() {
 
 function submitForm(){
     if (!validateForm()) {
-        
         return;
     }
 
     regCostumers.push({
-
+        name: inputName.value,
+        phone: inputPhone.value,
+        cep: inputCep.value,
+        adress: inputAdress.value,
+        adrNumber: inputAdrNumber.value,
+        neighborhood: inputNeighborhood.value,
+        city: inputCity.value,
+        state: inputState.value,
     });
 
     loadTable()
@@ -108,12 +122,6 @@ async function validateCep(input) {
     }
 
     const adressJson = await response.json();
-
-    const inputAdress = document.getElementById("inputAdress");
-    const inputAdrNumber = document.getElementById("inputAdrNumber");
-    const inputNeighborhood = document.getElementById("inputNeighborhood");
-    const inputCity = document.getElementById("inputCity");
-    const inputState = document.getElementById("inputState");
 
     if (adressJson.logradouro && adressJson.logradouro != "") {
         inputAdress.value = adressJson.logradouro;
