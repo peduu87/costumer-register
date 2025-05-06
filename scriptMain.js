@@ -40,9 +40,9 @@ function loadTable() {
         `<th scope="row">${i + 1}</th>
         <td>${regCostumers[i].shortName}</td>
         <td class="phone_with_ddd">${regCostumers[i].phone}</td>
-        <td class="d-none d-lg-table-cell phone_with_ddd">${regCostumers[i].adressAndNumber}</td>
-        <td class="d-none d-lg-table-cell">${courses.get(regCostumers[i].neighborhood)}</td>
-        <td>${regCostumers[i].cityAndState}</td>`;
+        <td class="d-none d-lg-table-cell">${regCostumers[i].adress}, ${regCostumers[i].adrNumber}</td>
+        <td class="d-none d-lg-table-cell">${regCostumers[i].neighborhood}</td>
+        <td>${regCostumers[i].city}, ${regCostumers[i].state}</td>`;
     }    
 
     phoneMask();
@@ -50,12 +50,30 @@ function loadTable() {
 
 $(document).ready(loadTable());
 
+function capitalizeName(name) {
+    const prepositions = ["da", "de", "do", "das", "dos", "e"];
+
+    return name
+        .split(" ")
+        .filter(word => word.trim() !== "")
+        .map((word, index) => {
+            const lower = word.toLowerCase();
+            if (index !== 0 && prepositions.includes(lower)) {
+                return lower; // Mantém em minúsculo se for preposição e não for a primeira palavra.
+            }
+            return lower[0].toUpperCase() + lower.slice(1);
+        })
+        .join(" ");
+}
+
 function validateForm() {
     const formControls = document.getElementsByClassName("form-control");
 
     let isFormValid = true;
 
     for (let cntrl of formControls) {
+        cntrl.value = cntrl.value.trim();
+
         if (cntrl.value.length <= 0) {
             cntrl.classList.add("border-danger");
             isFormValid = false;
@@ -89,8 +107,11 @@ function submitForm(){
         return;
     }
 
+    inputName.value = capitalizeName(inputName.value)
+
     regCostumers.push({
         name: inputName.value,
+        shortName: getShortName(inputName.value),
         phone: inputPhone.value,
         cep: inputCep.value,
         adress: inputAdress.value,
@@ -105,6 +126,29 @@ function submitForm(){
     clearForm();
 
     return;
+}
+
+function getShortName (name) {
+    let firstName, lastName;
+    
+    for (let i = 0; i < name.length; i++) {
+        if (name[i] == " ") {
+            firstName = name.substring(0, i);
+            break;
+        }
+        else if (i == name.length-1){
+            return name;
+        }
+    }
+
+    for (let j = (name.length - 1); j > 0; j--) {
+        if (name[j] == " ") {
+            lastName = name.substring(j + 1);
+            break;
+        }
+    }
+
+    return (firstName + " " + lastName);
 }
 
 async function validateCep(input) {
