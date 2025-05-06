@@ -28,7 +28,7 @@ var regCostumers = [
     
 ];
 
-// String that stores the CEP being used, so it could be validated in submition.
+// String that stores the CEP being used, so it could be validated while submitting.
 let workingCep
 
 function loadTable() {
@@ -61,7 +61,7 @@ function capitalizeName(name) {
         .map((word, index) => {
             const lower = word.toLowerCase();
             if (index !== 0 && prepositions.includes(lower)) {
-                return lower; // Mantém em minúsculo se for preposição e não for a primeira palavra.
+                return lower; // Keeps lower case if it's not the first word and it's a preposition.
             }
             return lower[0].toUpperCase() + lower.slice(1);
         })
