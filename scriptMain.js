@@ -23,11 +23,13 @@ inputCep.addEventListener('keydown', (e) => {
     }
 });
 
-
 // Object array that receives user information and stores it to be disposed.
 var regCostumers = [
     
 ];
+
+// String that stores the CEP being used, so it could be validated in submition.
+let workingCep
 
 function loadTable() {
     // Gets the table to show the data.
@@ -91,6 +93,14 @@ function validateForm() {
         document.getElementById("inputPhone").classList.remove("border-danger");
     }
 
+    if (inputCep.value != workingCep) {
+        inputCep.classList.add("border-danger");
+        isFormValid = false;
+    }
+    else {
+        inputCep.classList.remove("border-danger");
+    }
+
     return isFormValid;
 }
 
@@ -122,6 +132,8 @@ function submitForm(){
     });
 
     loadTable()
+
+    workingCep = "";
 
     clearForm();
 
@@ -164,6 +176,8 @@ async function validateCep(input) {
         alert("O CEP informado não pôde ser encontrado.");
         return;
     }
+
+    workingCep = input.value;
 
     const adressJson = await response.json();
 
