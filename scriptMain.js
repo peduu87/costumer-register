@@ -17,12 +17,6 @@ const inputNeighborhood = document.getElementById("inputNeighborhood");
 const inputCity = document.getElementById("inputCity");
 const inputState = document.getElementById("inputState");
 
-inputCep.addEventListener('keydown', (e) => {
-    if (e.code === "Enter") {
-        validateCep(inputCep);
-    }
-});
-
 // Object array that receives user information and stores it to be disposed.
 var regCostumers = [
     
@@ -181,8 +175,23 @@ async function validateCep(input) {
 
     const adressJson = await response.json();
 
+    if (adressJson.erro) {
+        inputAdress.value = "";
+        inputNeighborhood.value = "";
+        inputCity.value = "";
+        inputState.value = "";
+
+        inputAdress.disabled = true
+        inputNeighborhood.disabled = true
+        inputCity.disabled = true
+        inputState.disabled = true
+
+        return;
+    }
+
     if (adressJson.logradouro && adressJson.logradouro != "") {
         inputAdress.value = adressJson.logradouro;
+        inputAdress.disabled = true;
     }
     else {
         inputAdress.disabled = false;
@@ -192,18 +201,23 @@ async function validateCep(input) {
 
     if (adressJson.bairro && adressJson.bairro != "") {
         inputNeighborhood.value = adressJson.bairro;
+        inputNeighborhood.disabled = true;
     }
     else {
         inputNeighborhood.disabled = false;
     }
+
     if (adressJson.localidade && adressJson.localidade != "") {
         inputCity.value = adressJson.localidade;
+        inputCity.disabled = true;
     }
     else {
         inputCity.disabled = false;
     }
+
     if (adressJson.estado && adressJson.estado != "") {
         inputState.value = adressJson.estado;
+        inputState.disabled = true;
     }
     else {
         inputState.disabled = false;
